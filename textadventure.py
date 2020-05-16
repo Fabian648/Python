@@ -1,3 +1,4 @@
+
 import random
 
 
@@ -25,33 +26,47 @@ class Character:
 class Enemie(Character):
     pass
 
-class Ork(Enemie):
-    def __init__(self):
-        Character.__init__(self, 200, 40, "ork", 1.25)
-
-class Archer(Enemie):
-    def __init__(self):
-        Character.__init__(self, 75, 50, "archer", 1)
+class Nothing():
+    def __init__(self, name):
+        self.name = name
 
 class Field:
+    counter = 1
     def __init__(self, enemies):
         self.enemies = enemies
-    
+        self.is_castle_spawn = False
+
     def print_state(self):
         print("You look around and see ")
 
         for i in self.enemies:
-            print(i.name)
+            if i.name == "castle":
+                print("Castle")
+                print("would you like to go inside ?")
+                a = str(input(" y or n ?\n"))
+                if a == "y":
+                    Field.counter += 1
+                else:
+                    pass
+            else:
+                print(i.name)
     
     @staticmethod
     def gen_random():
-        en = random.randint(0,2)
+        en = random.randint(0,3)
+        is_castle_spawn = False
         if en == 0:
-            return Field([])
+            return Field([Nothing("nothing")])
         elif en == 1:
             return Field([Archer()])
         elif en == 2:
             return Field([Ork()])
+        elif en == 3:
+            if is_castle_spawn == False:
+                is_castle_spawn = True
+                return Field([Castle("castle")])
+            else:
+                return([Nothing("nothing")])
 
 class Map:
     def __init__(self, width, height):
@@ -94,6 +109,19 @@ class Map:
             print("You see cliffs but you can't jump safely")
         else:
             self.y -= 1
+
+
+class Castle():
+    def __init__(self, name):
+        self.name = name
+
+class Ork(Enemie):
+    def __init__(self):
+        Character.__init__(self, 200, 40, "ork", 1.25)   
+
+class Archer(Enemie):
+    def __init__(self):
+        Character.__init__(self, 75, 50, "archer", 1)
 
 class Player(Character):
     def __init__(self, name, hp, ad, de):
@@ -138,6 +166,9 @@ def fight(p, m):
             p.get_hit(i.ad)
         print("You are wounded and have " + str(int(p.hp)) + " hp left")
 
+def stage(p, m):
+    print(Field.counter)
+
 commands = {
     "help": game_help,
     "quit": game_quit,
@@ -146,7 +177,8 @@ commands = {
     "forward": forward,
     "backwards": backwards,
     "right": right,
-    "left": left
+    "left": left,
+    "stage": stage
 }
 if __name__ == "__main__":
     name = input("Enter your name: ")
