@@ -2,7 +2,7 @@ import time
 import os
 
 board = ["", " ", " ", " ", " ", " ", " ", " ", " ", " "]
-allplaces = []
+allplays = []
 player = ""
 
 def print_board():
@@ -34,9 +34,7 @@ def is_board_full(board):
 
 # alle möglichen Felder
 for i in range(9):
-    allplaces.append(i+1)
-print(allplaces)
-time.sleep(10)
+    allplays.append(i+1)
 
 
 while True:
@@ -45,9 +43,11 @@ while True:
     print_board()
     choice = 0
     
-    while choice not in (1, 2, 3, 4, 5 , 6, 7, 8, 9, "r"):
+    while choice not in allplays:
 
         choice = int(input("Please take between 1 - 9:\n"))
+
+    allplays.remove(choice)
 
     if board[choice] == " ":
         board[choice] = "X"
@@ -73,8 +73,10 @@ while True:
     print_board()
     choice = 0
     
-    while choice not in (1, 2, 3, 4, 5 , 6, 7, 8, 9):
+    while choice not in allplays:
         choice = int(input("Please take between 1 - 9:\n"))
+    
+    allplays.remove(choice)
 
     if board[choice] == " ":
         board[choice] = "O"
