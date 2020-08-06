@@ -2,6 +2,7 @@ import time
 import os
 
 board = ["", " ", " ", " ", " ", " ", " ", " ", " ", " "]
+allplaces = []
 player = ""
 
 def print_board():
@@ -31,13 +32,21 @@ def is_board_full(board):
     else:
         return True
 
+# alle möglichen Felder
+for i in range(9):
+    allplaces.append(i+1)
+print(allplaces)
+time.sleep(10)
+
+
 while True:
     #Player X
     os.system("cls")
     print_board()
     choice = 0
     
-    while choice not in (1, 2, 3, 4, 5 , 6, 7, 8, 9):
+    while choice not in (1, 2, 3, 4, 5 , 6, 7, 8, 9, "r"):
+
         choice = int(input("Please take between 1 - 9:\n"))
 
     if board[choice] == " ":
